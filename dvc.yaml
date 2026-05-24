@@ -1,0 +1,8 @@
+stages:
+  clean_data:
+    cmd: python src/clean_data.py data/MachineLearningRating_v3.txt data/cleaned_insurance_data.txt
+    deps:
+      - data/MachineLearningRating_v3.txt
+      - src/clean_data.py
+    outs:
+      - data/cleaned_insurance_data.txt

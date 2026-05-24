@@ -12,6 +12,7 @@ venv/
 !notebooks/*.ipynb
 
 # Data (tracked by DVC)
+data/
 data/*.csv
 data/*.parquet
 data/*.xlsx

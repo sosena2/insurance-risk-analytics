@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
+*.pyo
+*.pyd
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+!notebooks/*.ipynb
+
+# Data (tracked by DVC)
+data/*.csv
+data/*.parquet
+data/*.xlsx
+
+# DVC
+.dvc/cache/
+.dvc/tmp/
+.dvc/updates
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# OS
+.DS_Store
+Thumbs.db

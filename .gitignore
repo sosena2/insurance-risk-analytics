@@ -12,7 +12,8 @@ venv/
 !notebooks/*.ipynb
 
 # Data (tracked by DVC)
-data/
+data/MachineLearningRating_v3.txt
+data/cleaned_insurance_data.txt
 data/*.csv
 data/*.parquet
 data/*.xlsx

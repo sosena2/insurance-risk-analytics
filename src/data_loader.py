@@ -18,6 +18,26 @@ class InsuranceDataValidationError(InsuranceDataError):
     """Raised when loaded insurance data does not meet expected schema or quality checks."""
 
 
+def _validate_required_columns(df, required_columns):
+    if required_columns is None:
+        required_columns = {'TotalPremium', 'TotalClaims'}
+
+    if not isinstance(required_columns, (set, list, tuple)):
+        raise TypeError("required_columns must be a set, list, tuple, or None")
+
+    normalized = {str(col).strip() for col in required_columns if str(col).strip()}
+    if not normalized:
+        raise ValueError("required_columns must include at least one non-empty column name")
+
+    missing_columns = normalized.difference(df.columns)
+    if missing_columns:
+        raise InsuranceDataValidationError(
+            f"Missing required columns in insurance dataset: {', '.join(sorted(missing_columns))}"
+        )
+
+    return normalized
+
+
 def _validate_filepath(filepath):
     if filepath is None or str(filepath).strip() == "":
         raise ValueError("filepath must be a non-empty string or Path-like value")
@@ -31,8 +51,8 @@ def _validate_filepath(filepath):
     return path
 
 
-def _detect_separator(path: Path) -> str:
-    with path.open("r", encoding="utf-8-sig") as file_handle:
+def _detect_separator(path):
+    with path.open('r', encoding='utf-8-sig') as file_handle:
         header_line = ""
         for line in file_handle:
             stripped_line = line.strip()
@@ -43,11 +63,11 @@ def _detect_separator(path: Path) -> str:
     if not header_line:
         raise InsuranceDataError(f"The insurance data file is empty: {path}")
 
-    for separator in ("|", "\t", ";"):
+    for separator in ('|', '\t', ';'):
         if separator in header_line:
             return separator
 
-    return ","
+    return ','
 
 
 def read_insurance_file(filepath):
@@ -70,26 +90,6 @@ def read_insurance_file(filepath):
         raise InsuranceDataError(f"Failed to read insurance data file '{path}': {exc}") from exc
 
 
-def _validate_required_columns(df, required_columns):
-    if required_columns is None:
-        required_columns = {"TotalPremium", "TotalClaims"}
-
-    if not isinstance(required_columns, (set, list, tuple)):
-        raise TypeError("required_columns must be a set, list, tuple, or None")
-
-    normalized = {str(col).strip() for col in required_columns if str(col).strip()}
-    if not normalized:
-        raise ValueError("required_columns must include at least one non-empty column name")
-
-    missing_columns = normalized.difference(df.columns)
-    if missing_columns:
-        raise InsuranceDataValidationError(
-            f"Missing required columns in insurance dataset: {', '.join(sorted(missing_columns))}"
-        )
-
-    return normalized
-
-
 def load_insurance_data(filepath):
     """Load insurance dataset with proper data types and derived metrics"""
     print(f"Loading data from {filepath}...")
@@ -106,35 +106,35 @@ def load_insurance_data(filepath):
     if df.empty:
         raise InsuranceDataValidationError("Loaded insurance dataset is empty")
 
-    _validate_required_columns(df, {"TotalPremium", "TotalClaims"})
+    _validate_required_columns(df, {'TotalPremium', 'TotalClaims'})
 
     print(f"Loaded {len(df)} rows, {len(df.columns)} columns")
 
     try:
         # Convert date columns
-        if "TransactionMonth" in df.columns:
-            df["TransactionMonth"] = pd.to_datetime(df["TransactionMonth"], errors="coerce")
-            df["Month"] = df["TransactionMonth"].dt.month
-            df["Year"] = df["TransactionMonth"].dt.year
-            df["MonthName"] = df["TransactionMonth"].dt.month_name()
+        if 'TransactionMonth' in df.columns:
+            df['TransactionMonth'] = pd.to_datetime(df['TransactionMonth'], errors='coerce')
+            df['Month'] = df['TransactionMonth'].dt.month
+            df['Year'] = df['TransactionMonth'].dt.year
+            df['MonthName'] = df['TransactionMonth'].dt.month_name()
 
         # Ensure numeric columns are correct type
         numeric_cols = [
-            "TotalPremium",
-            "TotalClaims",
-            "CalculatedPremiumPerTerm",
-            "SumInsured",
-            "CapitalOutstanding",
-            "CustomValueEstimate",
+            'TotalPremium',
+            'TotalClaims',
+            'CalculatedPremiumPerTerm',
+            'SumInsured',
+            'CapitalOutstanding',
+            'CustomValueEstimate',
         ]
         for col in numeric_cols:
             if col in df.columns:
-                df[col] = pd.to_numeric(df[col], errors="coerce")
+                df[col] = pd.to_numeric(df[col], errors='coerce')
 
         # Calculate derived metrics
-        df["LossRatio"] = np.where(df["TotalPremium"] > 0, df["TotalClaims"] / df["TotalPremium"], 0)
-        df["Margin"] = df["TotalPremium"] - df["TotalClaims"]
-        df["HasClaim"] = (df["TotalClaims"] > 0).astype(int)
+        df['LossRatio'] = np.where(df['TotalPremium'] > 0, df['TotalClaims'] / df['TotalPremium'], 0)
+        df['Margin'] = df['TotalPremium'] - df['TotalClaims']
+        df['HasClaim'] = (df['TotalClaims'] > 0).astype(int)
     except Exception as exc:
         raise InsuranceDataValidationError(f"Failed while transforming insurance dataset: {exc}") from exc
 

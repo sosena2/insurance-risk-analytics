@@ -69,4 +69,8 @@ def test_load_insurance_data_wraps_parsing_errors(monkeypatch):
     monkeypatch.setattr("src.data_loader.read_insurance_file", broken_reader)
 
     with pytest.raises(InsuranceDataError, match="Unexpected error while loading insurance data"):
+<<<<<<< HEAD
         load_insurance_data("dummy-path.csv")
+=======
+        load_insurance_data("dummy-path.csv")
+>>>>>>> fb00ed06c8d7983ed7427a70e36ac06c8c8674c3

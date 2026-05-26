@@ -1,5 +1,7 @@
 """
 Data loading and preprocessing utilities for insurance analytics
+
+This module provides robust file validation, parsing, and basic quality checks.
 """
 
 from pathlib import Path

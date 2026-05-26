@@ -4,5 +4,6 @@ stages:
     deps:
       - data/MachineLearningRating_v3.txt
       - src/clean_data.py
-    outs:
-      - data/cleaned_insurance_data.txt
+    # The cleaned dataset is versioned separately in data/cleaned_insurance_data.txt.dvc.
+    # This stage documents the transformation lineage from the raw DVC-tracked input
+    # to the cleaned dataset artifact used by downstream analysis.

@@ -1,11 +1,28 @@
-# Insurance Risk Analytics - AlphaCare Solutions
+# Insurance Risk Analytics
 
-## Project Overview
-End-to-end insurance risk analytics for ACIS South Africa.
+This repository contains a DVC-tracked insurance analytics workflow with a cleaning stage, EDA notebook, and reproducible pipeline outputs.
 
-## Setup Instructions
+## Project Layout
 
-### 1. Clone and Environment
+- `data/MachineLearningRating_v3.txt.dvc` tracks the raw insurance dataset through DVC.
+- `src/data_loader.py` handles dataset loading, separator detection, and validation.
+- `src/clean_data.py` prepares the cleaned dataset for analysis.
+- `notebooks/01_eda.ipynb` contains descriptive statistics, missing-value analysis, visualizations, and loss-ratio exploration.
+- `.github/workflows/ci.yml` runs repository checks in CI.
+
+## Setup
+
+1. Create and activate a virtual environment.
+2. Install dependencies:
+
+	```bash
+	pip install -r requirements.txt
+	```
+
+## DVC Workflow
+
+Pull the tracked dataset and reproduce the pipeline end to end:
+
 ```bash
 git clone <your-repo-url>
 cd insurance-risk-analytics

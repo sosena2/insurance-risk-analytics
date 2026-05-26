@@ -16,11 +16,17 @@ def setup_style():
     plt.rcParams['font.size'] = 12
 
 
+def _safe_loss_ratio(frame):
+    total_premium = frame['TotalPremium'].sum()
+    total_claims = frame['TotalClaims'].sum()
+    if total_premium <= 0:
+        return np.nan
+    return total_claims / total_premium
+
+
 def plot_loss_ratio_by_category(df, category_col, title=None):
     """Plot loss ratio across categories"""
-    loss_ratio = df.groupby(category_col).apply(
-        lambda x: x['TotalClaims'].sum() / x['TotalPremium'].sum()
-    ).sort_values(ascending=False)
+    loss_ratio = df.groupby(category_col).apply(_safe_loss_ratio).dropna().sort_values(ascending=False)
     
     fig, ax = plt.subplots(figsize=(10, 6))
     loss_ratio.plot(kind='barh', ax=ax, color='coral')
@@ -81,7 +87,7 @@ def plot_temporal_trends(df):
     }).round(3)
     
     monthly.columns = ['TotalClaims', 'AvgClaimAmount', 'TotalPremium', 'ClaimFrequency']
-    monthly['LossRatio'] = monthly['TotalClaims'] / monthly['TotalPremium']
+    monthly['LossRatio'] = np.where(monthly['TotalPremium'] > 0, monthly['TotalClaims'] / monthly['TotalPremium'], np.nan)
     
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
     

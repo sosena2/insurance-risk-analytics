@@ -13,6 +13,7 @@ venv/
 
 # Raw data files (tracked by DVC, NOT Git)
 /data/MachineLearningRating_v3.txt
+data/cleaned_insurance_data.txt
 /data/raw/
 /data/raw/**
 /data/*.csv
@@ -20,7 +21,6 @@ venv/
 /data/*.parquet
 /data/*.xlsx
 /data/*.xls
-
 
 # DVC cache (ignore these, they're large)
 .dvc/cache/

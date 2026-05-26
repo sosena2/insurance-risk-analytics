@@ -11,15 +11,16 @@ venv/
 *.ipynb
 !notebooks/*.ipynb
 
-# Data (tracked by DVC)
-data/MachineLearningRating_v3.txt
+# Raw data files (tracked by DVC, NOT Git)
+/data/MachineLearningRating_v3.txt
 data/cleaned_insurance_data.txt
-data/*.csv
-data/*.txt
-data/*.parquet
-data/*.xlsx
-data/*.xls
-
+/data/raw/
+/data/raw/**
+/data/*.csv
+/data/*.txt
+/data/*.parquet
+/data/*.xlsx
+/data/*.xls
 
 # DVC cache (ignore these, they're large)
 .dvc/cache/

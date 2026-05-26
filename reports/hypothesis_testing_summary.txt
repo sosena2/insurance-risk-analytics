@@ -1,0 +1,30 @@
+================================================================================
+HYPOTHESIS TESTING SUMMARY - AlphaCare Insurance
+================================================================================
+
+HYPOTHESIS 1: Province Risk Differences
+  Decision: FAIL TO REJECT H₀
+  P-value: 0.162410
+  Fail to reject H₀: No significant difference in LossRatio between Gauteng and Western Cape (p=0.1624)
+
+HYPOTHESIS 2 & 3: Zip Code Differences
+  Significant pairs found: 4
+
+HYPOTHESIS 4: Gender Risk Differences
+  Decision: FAIL TO REJECT H₀
+  P-value: 0.126575
+  Fail to reject H₀: No significant risk difference between genders (p=0.1266)
+
+BUSINESS RECOMMENDATIONS:
+  • 4 zip code pairs show significant margin differences
+    Action: Conduct granular zip code level risk assessment and pricing
+    Priority: MEDIUM
+
+  • No significant gender-based risk difference
+    Action: Remove gender from pricing algorithms (compliance + fairness)
+    Priority: HIGH
+
+  • Claim severity varies significantly by province
+    Action: Adjust premium loadings based on regional claim costs
+    Priority: MEDIUM
+

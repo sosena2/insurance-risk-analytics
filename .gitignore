@@ -15,13 +15,17 @@ venv/
 data/MachineLearningRating_v3.txt
 data/cleaned_insurance_data.txt
 data/*.csv
+data/*.txt
 data/*.parquet
 data/*.xlsx
+data/*.xls
 
-# DVC
+
+# DVC cache (ignore these, they're large)
 .dvc/cache/
 .dvc/tmp/
 .dvc/updates
+.dvc/plots/
 
 # IDE
 .vscode/
